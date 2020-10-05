@@ -10,21 +10,16 @@ import CoreData
 
 class DetailsVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
-    
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var modelText: UITextField!
     @IBOutlet weak var typeText: UITextField!
     @IBOutlet weak var yearText: UITextField!
     
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-        
-        
-        
-        
-        
+                
         //Recognizers
         let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
         view.addGestureRecognizer(gestureRecognizer)
@@ -35,7 +30,6 @@ class DetailsVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         imageView.addGestureRecognizer(imageTapRecognizer)
     }
     
-    
     //to redirect user to gallery
     @objc func selectImage(){
         
@@ -45,7 +39,6 @@ class DetailsVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         picker.sourceType = .photoLibrary
         picker.allowsEditing = true
         present(picker, animated: true, completion: nil)
-        
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
@@ -54,20 +47,15 @@ class DetailsVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     }
 
     @objc func hideKeyboard(){
-        
         view.endEditing(true)
     }
-    
     
     @IBAction func saveButtonClicked(_ sender: Any) {
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
         
-        
         let newMotorcycle = NSEntityDescription.insertNewObject(forEntityName: "Motorcycle", into: context)
-        
-        
         
         //attributes
         newMotorcycle.setValue(modelText.text, forKey: "model")
@@ -80,14 +68,12 @@ class DetailsVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         
         let data = imageView.image?.pngData()
         newMotorcycle.setValue(data, forKey: "image")
-      
+        
         do{
             try context.save()
             print("success")
         }catch{
             print("error")
         }
-        
     }
-    
 }
