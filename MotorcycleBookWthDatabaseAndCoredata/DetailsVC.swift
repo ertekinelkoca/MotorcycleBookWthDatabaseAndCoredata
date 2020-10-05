@@ -75,5 +75,11 @@ class DetailsVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         }catch{
             print("error")
         }
+  
+        //this enables to send message to other controllers.
+        NotificationCenter.default.post(name: NSNotification.Name("newData"), object: nil)
+        
+        self.navigationController?.popViewController(animated: true)
+        
     }
 }

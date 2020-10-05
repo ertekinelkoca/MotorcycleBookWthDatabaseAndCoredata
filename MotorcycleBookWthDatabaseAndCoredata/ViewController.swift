@@ -32,7 +32,15 @@ class ViewController: UIViewController ,UITableViewDelegate , UITableViewDataSou
           
     }
     
-    func getData(){
+    override func viewWillAppear(_ animated: Bool) {
+        NotificationCenter.default.addObserver(self, selector: #selector(getData), name: NSNotification.Name("newData"), object: nil)
+    }
+    
+    @objc func getData(){
+        //to overcome redundant datas
+        nameArray.removeAll(keepingCapacity: false)
+        idArray.removeAll(keepingCapacity: false)
+        
         //app data araştırılacak
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
