@@ -15,10 +15,57 @@ class DetailsVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     @IBOutlet weak var typeText: UITextField!
     @IBOutlet weak var yearText: UITextField!
     
+    var chosenMotorcycle = ""
+    var chosenMotorcycleID : UUID?
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if chosenMotorcycle != ""{
+            //Core Data
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            let context = appDelegate.persistentContainer.viewContext
+            
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Motorcycle")
+           
+            let idString = chosenMotorcycleID?.uuidString
+            
+            fetchRequest.predicate = NSPredicate(format: "id = %@",idString!)
+            fetchRequest.returnsObjectsAsFaults = false
+            
+            do{
+              let results = try  context.fetch(fetchRequest)
+            
+                if results.count > 0 {
+                    for result in results as! [NSManagedObject]{
+                        
+                        if let model = result.value(forKey: "model") as? String{
+                            modelText.text = model
+                        }
+                        if let type = result.value(forKey: "type") as? String{
+                            typeText.text = type
+                        }
+                        if let year = result.value(forKey: "year") as? Int{
+                            yearText.text = String(year)
+                        }
+                        if let imageData = result.value(forKey: "image") as? Data{
+                            let image = UIImage(data: imageData)
+                            imageView.image = image
+                        }
+                    }
+                }
+            
+            }catch{
+                print("detailsVC persistence error")
+            }
+            
+        }
+        else{
+            modelText.text = ""
+            yearText.text = ""
+            typeText.text = ""
+        }
                 
         //Recognizers
         let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
