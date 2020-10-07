@@ -14,6 +14,7 @@ class DetailsVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     @IBOutlet weak var modelText: UITextField!
     @IBOutlet weak var typeText: UITextField!
     @IBOutlet weak var yearText: UITextField!
+    @IBOutlet weak var saveButton: UIButton!
     
     var chosenMotorcycle = ""
     var chosenMotorcycleID : UUID?
@@ -23,6 +24,12 @@ class DetailsVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         super.viewDidLoad()
         
         if chosenMotorcycle != ""{
+            
+            //to disable save button false before choosing picture
+            saveButton.isEnabled = false
+            //or
+            //saveButton.isHidden = false
+            
             //Core Data
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
             let context = appDelegate.persistentContainer.viewContext
@@ -90,7 +97,9 @@ class DetailsVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         imageView.image = info[.originalImage] as? UIImage
+        saveButton.isEnabled = true
         self.dismiss(animated: true, completion: nil)
+        
     }
 
     @objc func hideKeyboard(){

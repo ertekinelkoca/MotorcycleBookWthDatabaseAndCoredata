@@ -110,6 +110,7 @@
                     <connections>
                         <outlet property="imageView" destination="AVx-lI-pJP" id="VuT-zc-NY0"/>
                         <outlet property="modelText" destination="VRp-C4-ZDC" id="wUZ-nt-Fdx"/>
+                        <outlet property="saveButton" destination="CbK-Sz-Q4X" id="dUc-9n-N18"/>
                         <outlet property="typeText" destination="APr-zH-jVN" id="TSo-oc-LdW"/>
                         <outlet property="yearText" destination="L8Z-HS-ejn" id="r0u-pk-Ht1"/>
                     </connections>
